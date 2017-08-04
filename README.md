@@ -1,0 +1,1 @@
+Mini project that takes advantage of the Twitter API to compile a list of users with over 1500 followers. Stores this list in a CSV file. This data will be used later for possible project analyzing influences of popular users.
