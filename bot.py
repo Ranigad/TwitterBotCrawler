@@ -31,18 +31,20 @@ def createConnection(fileName):
 class StdOutListener(StreamListener):
 	def on_data(self, data):
 		dataJson = json.loads(data)
-		user = dataJson["user"]
-		followers, username, userID = user["followers_count"], user["screen_name"], user["id_str"]
-		if followers >= minFollowers:
-			print(username + " | " + str(followers))
-			if db.db(conn, "check", userID, username, followers):
-				action = "update"
-			else:
-				action = "add"
-			db.db(conn, action, userID, username, followers)
-
+		if "delete" not in dataJson:
+			user = dataJson["user"]
+			followers, username, userID = user["followers_count"], user["screen_name"], user["id_str"]
+			if followers >= minFollowers:
+				print(username + " | " + str(followers))
+				if db.db(conn, "check", userID, username, followers):
+					action = "update"
+				else:
+					action = "add"
+				db.db(conn, action, userID, username, followers)
+		else:
+			print("deleted")
 		if time.time() - initialTime > 60:
-			print("I have been running for 5 minutes, shutting down")
+			print("I have been running for 1 minute, shutting down")
 			conn.commit()
 			conn.close()
 			exit()
@@ -59,4 +61,4 @@ if __name__ == "__main__":
 	auth.set_access_token(accessKey, accessSecret)
 	stream = Stream(auth, l)
 
-	stream.filter(track = ["python"])
+	stream.sample()
