@@ -33,8 +33,8 @@ class StdOutListener(StreamListener):
 		dataJson = json.loads(data)
 		user = dataJson["user"]
 		followers, username, userID = user["followers_count"], user["screen_name"], user["id_str"]
-		print(username)
 		if followers >= minFollowers:
+			print(username + " | " + str(followers))
 			if db.db(conn, "check", userID, username, followers):
 				action = "update"
 			else:
