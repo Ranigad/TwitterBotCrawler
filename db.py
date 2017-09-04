@@ -7,8 +7,8 @@ def updateUser(c, username, userid, followers):
 def addUser(c, username, userid, followers):
 	c.execute("insert into users values (?, ?, ?)", (userid, username, followers))
 
-def isUser(c, username):
-	c.execute("select exists(select 1 from users where username = ?)", (username,)).fetchone()[0]
+def isUser(c, userid):
+	return c.execute("select exists(select 1 from users where id = ?)", (userid,)).fetchone()[0]
 
 def db(conn, action, userid, username, followers):
 	c = conn.cursor()
@@ -18,7 +18,7 @@ def db(conn, action, userid, username, followers):
 	elif action == "add":
 		addUser(c, username, userid, followers)
 	elif action == "check":
-		return isUser(c, username)
+		return isUser(c, userid)
 	else:
 		status = -1
 	conn.commit()
