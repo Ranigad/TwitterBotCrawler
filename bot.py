@@ -35,7 +35,7 @@ class StdOutListener(StreamListener):
 		followers, username, userID = user["followers_count"], user["screen_name"], user["id_str"]
 		print(username)
 		if followers >= minFollowers:
-			if db.db(conn, "check", username = username):
+			if db.db(conn, "check", userID, username, followers):
 				action = "update"
 			else:
 				action = "add"
