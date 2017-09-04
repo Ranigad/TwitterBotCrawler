@@ -10,7 +10,7 @@ def addUser(c, username, userid, followers):
 def isUser(c, username):
 	c.execute("select exists(select 1 from users where username = ?)", (username,)).fetchone()[0]
 
-def db(conn, action, username, userid, followers):
+def db(conn, action, userid, username, followers):
 	c = conn.cursor()
 	status = 0
 	if action == "update":
@@ -32,7 +32,13 @@ def makedb(dbname = "twitterData.db"):
 	conn.close()
 
 def connectdb(dbname = "twitterData.db"):
-	return sqlite3.connect(dbname)
+	try:
+		conn = sqlite3.connect(dbname)
+		return conn
+	except Error as e:
+		print(e)
+
+	return None
 
 def printdb(conn = None):
 	if conn is None:
