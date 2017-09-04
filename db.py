@@ -27,7 +27,7 @@ def db(conn, action, userid, username, followers):
 def makedb(dbname = "twitterData.db"):
 	conn = sqlite3.connect(dbname)
 	c = conn.cursor()
-	c.execute("create table users(id text primary key, username text, followers text)")
+	c.execute("create table users(id text primary key, username text, followers int)")
 	conn.commit()
 	conn.close()
 
